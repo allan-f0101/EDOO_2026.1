@@ -63,6 +63,7 @@ int main(){
 
             int desejada[input];
             desejada[0] = primeiro;
+            
             for(int i = 1; i < input; i++){
                 cin >> desejada[i];
             }
