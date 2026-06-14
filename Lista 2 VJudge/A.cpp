@@ -36,11 +36,9 @@ public:
     }
     ~Dictionary();
 
-    void insert(string key, E value){
-        int initialPos = Hash(key);
-        
+    void insert(string key, E value){        
         for(int i = 0; i < 20; i++){
-            pos = (Hash(key) + i*i + 23*i) % 101;
+            int pos = (Hash(key) + i*i + 23*i) % 101;
 
             if(estado[pos] == VAZIO || estado[pos] == DELETADO){
                 keys[pos] = key;
@@ -57,30 +55,45 @@ public:
     }
 
     E remove(string key){
-        int initialPos = (Hash(key) + i*i + 23*i) % 101;
-
         for(int j = 0; j < 20; j++){
+            int pos = (Hash(key) + j*j + 23*j) % 101;
+            if(estado[pos] == VAZIO){
+                break;
+            }
 
-            if(estado[initialPos] == VAZIO){
-                return 0;
-            }
-            else if(estado[initialPos] == OCUPADO && keys[initialPos] == key){
-                values[initialPos] = 0;
-                estado[initialPos] = DELETADO;
-                return;
-            }
-            else if(estado[initialPos] == OCUPADO || estado[initialPos] == DELETADO){
-                
+            if(estado[pos] == OCUPADO && keys[pos] == key){
+                estado[pos] = DELETADO;
+                cont--;
+                return values[pos];
             }
         }
+        return E();
     }
 
     E find(string key){
+        for(int j = 0; j < 20; j++){
+            int pos = (Hash(key) + j*j + 23*j) % 101;
 
+            if(estado[pos] == VAZIO){
+                return E();
+            }
+
+            if(estado[pos] == OCUPADO && keys[pos] == key){
+                return values[pos];
+            }
+        }
+        return E();
     }
 
-    void clear();
-    int size();
+    void clear(){
+        for(int i = 0; i < tam; i++){
+            estado[i] = VAZIO;
+        }
+        cont = 0;
+    }
+    int size(){
+        return cont;
+    }
     
 };
 
