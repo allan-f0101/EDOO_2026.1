@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -34,7 +35,7 @@ public:
             estado[i] = VAZIO;
         }
     }
-    ~Dictionary();
+    ~Dictionary() {};
 
     void insert(string key, E value){        
         for(int i = 0; i < 20; i++){
@@ -57,9 +58,9 @@ public:
     E remove(string key){
         for(int j = 0; j < 20; j++){
             int pos = (Hash(key) + j*j + 23*j) % 101;
-            if(estado[pos] == VAZIO){
-                break;
-            }
+            // if(estado[pos] == VAZIO){
+            //     break;
+            // }
 
             if(estado[pos] == OCUPADO && keys[pos] == key){
                 estado[pos] = DELETADO;
@@ -91,13 +92,56 @@ public:
         }
         cont = 0;
     }
+    
     int size(){
         return cont;
+    }
+
+    void print(){
+        for(int i = 0; i < tam; i++){
+            if(estado[i] == OCUPADO){
+                cout << i << ":" << keys[i] << endl;
+            }
+        }
     }
     
 };
 
 int main(){
+    int cont = 0;
+    int t;
+    cin >> t;
+
+    while(cont < t){
+        int n;
+        cin >> n;
+        cin.ignore();
+
+        Dictionary<int> dict;
+
+        for(int i = 0; i < n; i++){
+            string line;
+            getline(cin, line);
+
+            stringstream ss(line);
+            string operation;
+            string chave;
+
+            getline(ss, operation, ':');
+            getline(ss, chave);
+
+            if(operation == "ADD"){
+                dict.insert(chave, 1);
+            }
+
+            if(operation == "DEL"){
+                dict.remove(chave);
+            }
+        }
+        cont++;
+        cout << dict.size() << endl;
+        dict.print();
+    }
 
     return 0;
 }
