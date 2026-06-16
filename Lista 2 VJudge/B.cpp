@@ -1,5 +1,6 @@
 #include <iostream>
 #include <list>
+#include <string>
 
 template<typename E>
 class Dictionary{
@@ -61,15 +62,39 @@ public:
 
     void clear(){
         for(int i = 0; i < tam; i++){
-            
+            lista[i].clear();
         }
     }
 
     int size(){
         return cont;
     }
+
+    void print(){
+        for(string valor : lista[key]){
+            cout << valor;
+        }
+    }
 };
 
 int main(){
+    int cont = 0;
+
+    Dictionary<string> linha;
+    string input;
+
+    while(getline(cin, input)){
+        
+        if(linha.empty()){
+            break;
+        }
+
+        stringstream ss(linha);
+
+        string chave, valor;
+        ss >> chave;
+        ss >> valor;
+
+    }   
     return 0;
 }
