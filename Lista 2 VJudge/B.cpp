@@ -1,6 +1,9 @@
 #include <iostream>
 #include <list>
 #include <string>
+#include <sstream>
+
+using namespace std;
 
 template<typename E>
 class Dictionary{
