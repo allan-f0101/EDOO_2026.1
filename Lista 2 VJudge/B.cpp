@@ -73,31 +73,38 @@ public:
         return cont;
     }
 
-    void print(){
-        for(string valor : lista[key]){
-            cout << valor;
-        }
-    }
 };
 
 int main(){
     int cont = 0;
 
-    Dictionary<string> linha;
+    Dictionary<string> dict;
     string input;
 
     while(getline(cin, input)){
         
-        if(linha.empty()){
+        if(input.empty()){
             break;
         }
 
-        stringstream ss(linha);
+        stringstream ss(input);
 
         string chave, valor;
         ss >> chave;
         ss >> valor;
 
+        dict.insert(chave, valor);
+
     }   
+
+    while(getline(cin, input)){
+        string resposta = dict.find(input);
+        if(resposta.empty()){
+            cout << "eh\n";
+        }
+        else{
+            cout << resposta << "\n";
+        }
+    }
     return 0;
 }
