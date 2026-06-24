@@ -74,7 +74,8 @@ int main(){
             }
 
             tree.printPreOrder();
-            
+            cout << "\n";
+
             raws.clear();
 
             if(raw == "$"){
