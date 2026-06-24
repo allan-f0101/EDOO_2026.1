@@ -57,7 +57,7 @@ public:
     }
 
     void insert(int data){
-        Node* tempNode = new Node;
+        root = insertHealper(root, data);
     }
 
 };
