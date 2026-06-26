@@ -13,12 +13,8 @@ private:
 
 public:
     Stack() : top(nullptr), size(0) {}
-    virtual ~Stack(){}
-
-    void clear(){
-        while(size > 0){
-            pop();
-        }
+    virtual ~Stack(){
+        clear();
     }
 
     void push(const E& it){
@@ -43,6 +39,12 @@ public:
 
     int length() const{
         return size;
+    }
+
+    void clear(){
+        while(size > 0){
+            pop();
+        }
     }
 };
 
