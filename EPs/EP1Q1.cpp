@@ -127,6 +127,7 @@ int main(){
     Queue<string> queue;
 
     for(int i = 0; i < num; i++){
+        cout << "caso " << i+1 << ":" << endl;
         cin >> num2;
         for(int j = 0; j < num2; j++){
             string input;

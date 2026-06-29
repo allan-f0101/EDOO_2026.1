@@ -1,44 +1,50 @@
 #include <iostream>
+#include <stdexcept>
+#include <string>
 
-template<typename E> class Stack{
+using namespace std;
+
+class Stack{
 private:
     struct Node{
-        E data;
+        int data;
         Node* next;
-        Node(E d) : data(d), next(nullptr) {}
+
+        Node(int d) : data(d), next(nullptr) {}
     };
 
-    Node* top;
     int size;
-
+    Node* top;
 public:
-    Stack() : top(nullptr), size(0) {}
-    virtual ~Stack(){
-        clear();
-    }
+    Stack() : size(0), top(nullptr) {}
+    virtual ~Stack(){}
 
-    void push(const E& it){
-        Node* novoNo = new Node(it);
-        novoNo->next = top;
-        top = novoNo;
+    void push(int value){
+        Node* novono = new Node(value);
+        novono->next = top;
+        top = novono;
+
         size++;
     }
 
-    E pop(){
+    void pop(){
+        if(top==nullptr){
+            throw runtime_error("Erro, my friend!");
+        }
+        
         Node* temp = top;
+        
         top = top->next;
-        E valor = temp->data;
+
         delete temp;
         size--;
-        return valor;
     }
 
-    const E& topValue() const{
+    const int topvalue() const{
+        if(top == nullptr){
+            throw runtime_error("Erro!");
+        }
         return top->data;
-    }
-
-    int length() const{
-        return size;
     }
 
     void clear(){
@@ -47,18 +53,3 @@ public:
         }
     }
 };
-
-int main(){
-
-    int n;
-    
-
-    while(true){
-        
-        while(true){
-
-        }
-    }
-
-    return 0;
-}
