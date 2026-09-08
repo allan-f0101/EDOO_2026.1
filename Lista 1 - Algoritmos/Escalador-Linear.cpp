@@ -3,12 +3,18 @@
 
 using namespace std;
 
+class Elemento{
+public:
+    int id;
+    int prioridade;
+};
+
 class Node{
 public:
-    int data;
+    Elemento data;
     Node* next;
 
-    Node(int n) : data(n), next(nullptr){}
+    Node(int id, int prio) : data{id, prio}, next(nullptr){}
 
 };
 
@@ -18,14 +24,15 @@ private:
     Node* rear;
 
     int size;
+
 public:
     Queue() : front(nullptr), rear(nullptr), size(0) {}
     ~Queue(){
         clear();
     }
 
-    void add(int valor){
-        Node* novono = new Node(valor);
+    void add(int id, int prioridade){
+        Node* novono = new Node(id, prioridade);
         if(front == nullptr){
             front = novono;
             rear = novono;
@@ -43,30 +50,133 @@ public:
     void update(int id, int num_prioridade){
         Node* atual = front;
         
-        //Nesse laço me baseei em outra questão que resolvi anteriormente
-        //Aqui o ID recebido é multiplipo de 10, mas posso dividir por 10
-        //Consequentemente vai dar para usar as posições de 1 em 1.
-        id = id / 10;
-        int cont = 0;
+        while(atual != nullptr){
 
-        while(cont != id && atual != nullptr){
-            
-            cont++;
+            if(atual->data.id == id){
+                atual->data.prioridade = num_prioridade;
+                return;
+            }
+
+            atual = atual->next;
         }
-        for(int i = 0; i < id - 1; i++){
+        
+    }
+
+    //Roda a fila inteira fazendo a comparação entre os valores para achar 
+    //as restrições exigidas
+    void next(){
+
+        if(front == nullptr){
+            cout << "Fila Vazia"<< endl;
+            return;
+        }
+
+        Node* atual = front;
+        int maior = atual->data.prioridade;
+        int menor_id = atual->data.id;
+
+        while(atual != nullptr){
+            if(maior < atual->data.prioridade){
+                maior = atual->data.prioridade;
+                menor_id = atual->data.id;
+            }
+            
+            else if(maior == atual->data.prioridade){
+                if(menor_id > atual->data.id){
+                    menor_id = atual->data.id;
+                }
+            }
+            atual=atual->next;
+        }
+
+        //Caso o elemento a ser removido for o front:
+
+        if(front->data.id == menor_id){
+            int num_operacoes = 1;
+            Node* temp = front;
+
+            front=front->next;
+
+            if(front==nullptr){
+                rear = nullptr;
+            }
+
+            delete temp;
+            size--;
+
+            cout << menor_id << ' ' << num_operacoes << " " << size << endl;
+            return;
+        }
+        
+        // Caso seja algum outro elemento da fila
+        atual = front;
+        int num_operacoes = 1;
+
+        while(atual->next != nullptr){
+            num_operacoes++;
+            if(atual->next->data.id == menor_id){
+                Node* temp = atual->next;
+                atual->next = temp->next;
+
+                if(temp == rear){
+                    rear = atual;
+                }
+
+                delete temp;
+                size--;
+                cout << menor_id << " " << num_operacoes << " " << size << endl;
+                return;
+            }
             atual = atual->next;
         }
     }
 
-    void next(){
-
+    void clear(){
+        while(size > 0){
+            Node* temp = front;
+            front = front->next;
+            delete temp;
+            size--;
+        }
+        rear = nullptr;
+        size = 0;
     }
-
-
-    void clear(){};
 
 };
 
+void add_element(Queue& queue){
+    int id, num_prioridade;
+    cin >> id >> num_prioridade;
+    queue.add(id, num_prioridade);
+}
+
+void update_element(Queue& queue){
+    int id, num_prioridade;
+    cin >> id >> num_prioridade;
+    queue.update(id, num_prioridade);
+}
+
 int main(){
+
+    Queue queue;
+
+    int num;
+    cin >> num;
+
+    string input;
+
+    for(int i = 0; i < num; i++){
+        cin >> input;
+
+        if(input == "ADD"){
+            add_element(queue);
+        }
+        else if(input == "UPDATE"){
+            update_element(queue);
+        }
+        else if(input == "NEXT"){
+            queue.next();  
+        } 
+    }
     return 0;
 }
